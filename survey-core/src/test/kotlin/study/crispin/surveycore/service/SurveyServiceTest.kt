@@ -1,14 +1,16 @@
 package study.crispin.surveycore.service
 
+import io.kotest.assertions.assertSoftly
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
 import study.crispin.surveycore.domain.Form
 import study.crispin.surveycore.domain.Survey
 import study.crispin.surveycore.domain.SurveyItem
 
 class SurveyServiceTest : DescribeSpec({
 
-    lateinit var surveyService: CreateSurveyUseCase
+    lateinit var surveyService: SurveyUseCase
 
     beforeTest {
         surveyService = SurveyService()
@@ -16,7 +18,7 @@ class SurveyServiceTest : DescribeSpec({
 
     describe("설문조사 서비스 테스트") {
 
-        describe("설문 조사 생성 테스트 ") {
+        describe("설문조사 생성 테스트") {
 
             context("정상적인 생성 요청일 때") {
 
@@ -29,13 +31,13 @@ class SurveyServiceTest : DescribeSpec({
                             SurveyItem(
                                 "이름",
                                 "성함을 입력해주세요.",
-                                Form.ShortInput("홍길동"),
+                                Form.ShortInput,
                                 true
                             ),
                             SurveyItem(
                                 "나이",
                                 "나이을 입력해주세요.",
-                                Form.ShortInput("10"),
+                                Form.ShortInput,
                                 false
                             ),
                             SurveyItem(
@@ -51,7 +53,10 @@ class SurveyServiceTest : DescribeSpec({
                     val actual: Survey = surveyService.createSurvey(request)
 
                     // then
-                    actual shouldNotBe null
+                    assertSoftly {
+                        actual.name shouldBe "관심사 조사"
+                        actual.items shouldHaveSize 3
+                    }
                 }
             }
         }

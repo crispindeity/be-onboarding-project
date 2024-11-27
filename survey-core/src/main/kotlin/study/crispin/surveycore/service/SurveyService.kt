@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 import study.crispin.surveycore.domain.Survey
 
 @Service
-internal class SurveyService : CreateSurveyUseCase {
+internal class SurveyService : SurveyUseCase {
 
     override fun createSurvey(request: CreateSurveyUseCase.Request): Survey =
         Survey(
