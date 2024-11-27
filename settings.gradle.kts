@@ -10,5 +10,6 @@ plugins {
 }
 
 include(
-    ":survey-core"
+    ":survey-core",
+    ":survey-infra",
 )
