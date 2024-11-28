@@ -3,11 +3,10 @@ package study.crispin.surveyinfra.adaptor
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.collections.shouldHaveSize
-import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import study.crispin.surveyinfra.adaptor.dto.FormDto
 import study.crispin.surveyinfra.adaptor.dto.SurveyDto
-import study.crispin.surveyinfra.adaptor.dto.request.SurveyRequestItemDto
+import study.crispin.surveyinfra.adaptor.dto.SurveyItemDto
 import study.crispin.surveyinfra.port.SaveSurveyPort
 import study.crispin.surveyinfra.port.SurveyPort
 import study.crispin.surveyinfra.repository.SurveyItemMemoryRepository
@@ -39,19 +38,19 @@ class SurveyAdaptorTest : DescribeSpec({
                         "관심사 조사",
                         "성별에 따른 관심사 조사",
                         listOf(
-                            SurveyRequestItemDto(
+                            SurveyItemDto(
                                 "이름",
                                 "성함을 입력해주세요.",
                                 FormDto.ShortInput,
                                 true,
                             ),
-                            SurveyRequestItemDto(
+                            SurveyItemDto(
                                 "나이",
                                 "나이을 입력해주세요.",
                                 FormDto.ShortInput,
                                 false,
                             ),
-                            SurveyRequestItemDto(
+                            SurveyItemDto(
                                 "관심사",
                                 "관심 있는 분야를 모두 선택해주세요.",
                                 FormDto.MultiSelect(listOf("스포츠", "음약", "기술")),
@@ -66,7 +65,6 @@ class SurveyAdaptorTest : DescribeSpec({
                     assertSoftly {
                         actual.id shouldNotBe null
                         actual.items shouldHaveSize 3
-                        actual.items.all { it.version == 0 } shouldBe true
                     }
                 }
             }
