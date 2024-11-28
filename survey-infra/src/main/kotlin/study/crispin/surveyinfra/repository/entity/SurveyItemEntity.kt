@@ -11,6 +11,8 @@ data class SurveyItemEntity(
 ) {
     var id: UUID? = null
         private set
+    var version: Int = 0
+        private set
 
     companion object {
         fun createWithId(

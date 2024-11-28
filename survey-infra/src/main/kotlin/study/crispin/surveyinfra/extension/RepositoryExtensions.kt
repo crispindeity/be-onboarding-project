@@ -3,7 +3,8 @@ package study.crispin.surveyinfra.extension
 import java.util.UUID
 import study.crispin.surveyinfra.adaptor.dto.FormDto
 import study.crispin.surveyinfra.adaptor.dto.SurveyDto
-import study.crispin.surveyinfra.adaptor.dto.SurveyItemDto
+import study.crispin.surveyinfra.adaptor.dto.request.SurveyRequestItemDto
+import study.crispin.surveyinfra.adaptor.dto.response.SurveyResponseItemDto
 import study.crispin.surveyinfra.port.SaveSurveyPort
 import study.crispin.surveyinfra.repository.entity.FormEmbeddable
 import study.crispin.surveyinfra.repository.entity.FormType
@@ -15,7 +16,7 @@ fun SaveSurveyPort.Request.toEntity(): SurveyEntity = SurveyEntity(
     description = this.description,
 )
 
-fun SurveyItemDto.toEntity(surveyId: UUID): SurveyItemEntity = SurveyItemEntity(
+fun SurveyRequestItemDto.toEntity(surveyId: UUID): SurveyItemEntity = SurveyItemEntity(
     surveyId = surveyId,
     name = this.name,
     description = this.description,
@@ -38,18 +39,20 @@ fun FormDto.toEmbeddable(): FormEmbeddable = when (this) {
     )
 }
 
-fun SurveyEntity.toDto(): SurveyDto = SurveyDto(
+fun SurveyEntity.toRequestDto(): SurveyDto = SurveyDto(
     id = this.id!!,
     name = this.name,
     description = this.description,
 )
 
-fun SurveyItemEntity.toDto(): SurveyItemDto = SurveyItemDto(
+fun SurveyItemEntity.toResponseDto(): SurveyResponseItemDto = SurveyResponseItemDto(
     name = this.name,
     description = this.description,
     form = this.form.toDto(),
     required = this.required,
+    version = this.version,
 )
+
 
 fun FormEmbeddable.toDto(): FormDto = when (this.type) {
     FormType.LONG_INPUT -> FormDto.LongInput
