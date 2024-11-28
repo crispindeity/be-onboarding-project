@@ -2,7 +2,6 @@ package study.crispin.surveyinfra.adaptor
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.assertions.assertSoftly
-import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
