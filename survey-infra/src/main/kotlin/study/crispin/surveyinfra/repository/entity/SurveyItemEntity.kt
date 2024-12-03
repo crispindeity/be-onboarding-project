@@ -14,6 +14,17 @@ data class SurveyItemEntity(
     var version: Int = 0
         private set
 
+    constructor(
+        surveyId: UUID,
+        name: String,
+        description: String,
+        form: FormEmbeddable,
+        required: Boolean,
+        version: Int
+    ) : this(surveyId, name, description, form, required) {
+        this.version = version
+    }
+
     companion object {
         fun createWithId(
             surveyId: UUID,

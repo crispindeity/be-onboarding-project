@@ -23,9 +23,17 @@ internal class SurveyItemMemoryRepository : SurveyItemRepository {
                         newId,
                     ).also { storage[newId] = this }
                 }
+
                 else -> throw IllegalArgumentException()
             }
         }
     }
-}
 
+    override fun findBySurveyId(id: UUID): List<SurveyItemEntity> {
+        val maxVersion: Int = storage.values
+            .filter { it.surveyId == id }
+            .maxOf { it.version }
+        return storage.values
+            .filter { it.surveyId == id && it.version == maxVersion}
+    }
+}

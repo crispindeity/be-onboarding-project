@@ -23,4 +23,8 @@ internal class SurveyMemoryRepository : SurveyRepository {
         }
         return savedEntity
     }
+
+    override fun findById(id: UUID): SurveyEntity? {
+        return storage[id]
+    }
 }

@@ -2,4 +2,5 @@ package study.crispin.surveyinfra.port
 
 interface SurveyPort :
     SaveSurveyPort,
-    UpdateSurveyPort
+    UpdateSurveyPort,
+    FindSurveyPort
