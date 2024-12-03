@@ -23,6 +23,23 @@ fun SurveyItemDto.toEntity(surveyId: UUID): SurveyItemEntity = SurveyItemEntity(
     required = this.required,
 )
 
+/*
+todo    :: 정적 팩터리 메서드 패턴 적용
+ author :: crispin
+ date   :: 2024-12-3T15:40:57KST
+*/
+fun SurveyItemDto.toEntity(
+    surveyId: UUID,
+    version: Int,
+): SurveyItemEntity = SurveyItemEntity(
+    surveyId = surveyId,
+    name = this.name,
+    description = this.description,
+    form = this.form.toEmbeddable(),
+    required = this.required,
+    version = version
+)
+
 fun FormDto.toEmbeddable(): FormEmbeddable = when (this) {
     FormDto.LongInput -> FormEmbeddable(type = FormType.LONG_INPUT)
     FormDto.ShortInput -> FormEmbeddable(type = FormType.SHORT_INPUT)
