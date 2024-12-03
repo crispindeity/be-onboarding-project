@@ -7,13 +7,16 @@ import io.kotest.matchers.shouldBe
 import study.crispin.surveycore.domain.Form
 import study.crispin.surveycore.domain.Survey
 import study.crispin.surveycore.domain.SurveyItem
+import study.crispin.surveycore.fake.SurveyFakeAdaptor
 
 class SurveyServiceTest : DescribeSpec({
 
     lateinit var surveyService: SurveyUseCase
 
     beforeTest {
-        surveyService = SurveyService()
+        surveyService = SurveyService(
+            surveyPort = SurveyFakeAdaptor()
+        )
     }
 
     describe("설문조사 서비스 테스트") {

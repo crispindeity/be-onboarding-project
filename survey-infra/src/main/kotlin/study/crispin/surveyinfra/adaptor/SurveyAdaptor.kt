@@ -58,10 +58,12 @@ internal class SurveyAdaptor(
     override fun findById(id: UUID): SurveyDto {
         return surveyRepository.findById(id)?.let { entity ->
             val surveyDto: SurveyDto = entity.toDto()
+
             val surveyItemDtos: List<SurveyItemDto> =
                 surveyItemRepository.findBySurveyId(surveyDto.id)
                     .map { it.toDto() }
             surveyDto.update(surveyItemDtos)
+
         } ?: throw IllegalArgumentException()
     }
 }

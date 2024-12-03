@@ -6,5 +6,5 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.surveyInfra)
+    implementation(project(":survey-infra"))
 }
