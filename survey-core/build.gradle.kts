@@ -8,3 +8,11 @@ plugins {
 dependencies {
     implementation(project(":survey-infra"))
 }
+
+tasks.bootJar {
+    enabled = false
+}
+
+tasks.jar {
+    enabled = true
+}
