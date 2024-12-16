@@ -16,4 +16,15 @@ data class SurveyDto(
             items = items,
         )
     }
+
+    fun update(
+        name: String,
+        description: String,
+    ): SurveyDto {
+        return SurveyDto(
+            id = this.id,
+            name = name,
+            description = description
+        )
+    }
 }
