@@ -3,13 +3,13 @@ package study.crispin.surveyinfra.adaptor
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import study.crispin.surveyinfra.adaptor.dto.FormDto
 import study.crispin.surveyinfra.adaptor.dto.SurveyDto
 import study.crispin.surveyinfra.adaptor.dto.SurveyItemDto
 import study.crispin.surveyinfra.port.SaveSurveyPort
 import study.crispin.surveyinfra.port.SurveyPort
-import study.crispin.surveyinfra.port.UpdateSurveyPort
 import study.crispin.surveyinfra.repository.SurveyItemMemoryRepository
 import study.crispin.surveyinfra.repository.SurveyItemRepository
 import study.crispin.surveyinfra.repository.SurveyMemoryRepository
@@ -104,7 +104,7 @@ class SurveyAdaptorTest : DescribeSpec({
                     val savedSurvey: SurveyDto = surveyAdaptor.save(request)
 
                     // when
-                    val actual: SurveyDto =  surveyAdaptor.findById(savedSurvey.id)
+                    val actual: SurveyDto = surveyAdaptor.findById(savedSurvey.id)
 
                     // then
                     actual.items shouldHaveSize 3
@@ -144,8 +144,31 @@ class SurveyAdaptorTest : DescribeSpec({
                     )
                     val savedSurvey: SurveyDto = surveyAdaptor.save(saveRequest)
 
-                    val updateRequest = UpdateSurveyPort.Request(
+                    val updateDto = SurveyDto(
                         savedSurvey.id,
+                        name = "나이별 관심사 조사",
+                        description = "나이에 따른 관심사 조사",
+                    )
+
+                    // when
+                    surveyAdaptor.update(updateDto)
+
+                    // then
+                    assertSoftly {
+                        surveyAdaptor.findById(savedSurvey.id).name shouldBe "나이별 관심사 조사"
+                        surveyAdaptor.findById(savedSurvey.id).description shouldBe "나이에 따른 관심사 조사"
+                    }
+                }
+            }
+        }
+
+        describe("설문조사 아이템 업데이트 테스트") {
+
+            context("정상적인 업데이트 요청일 때") {
+
+                it("설문조사 아이템을 업데이트 할 수 있어야 한다.") {
+                    // given
+                    val saveRequest = SaveSurveyPort.Request(
                         "관심사 조사",
                         "성별에 따른 관심사 조사",
                         listOf(
@@ -167,19 +190,46 @@ class SurveyAdaptorTest : DescribeSpec({
                                 FormDto.MultiSelect(listOf("스포츠", "음약", "기술")),
                                 true,
                             ),
-                            SurveyItemDto(
-                                "성별",
-                                "성별을 선택해주세요.",
-                                FormDto.SingleSelect(listOf("남", "여", "기타")),
-                                true,
-                            ),
                         )
                     )
+                    val savedSurvey: SurveyDto = surveyAdaptor.save(saveRequest)
+
+                    val updateSurveyItemDtos: List<SurveyItemDto> = listOf(
+                        SurveyItemDto(
+                            "이름",
+                            "성함을 입력해주세요.",
+                            FormDto.ShortInput,
+                            true,
+                        ),
+                        SurveyItemDto(
+                            "나이",
+                            "나이을 입력해주세요.",
+                            FormDto.ShortInput,
+                            false,
+                        ),
+                        SurveyItemDto(
+                            "관심사",
+                            "관심 있는 분야를 모두 선택해주세요.",
+                            FormDto.MultiSelect(listOf("스포츠", "음약", "기술")),
+                            true,
+                        ),
+                        SurveyItemDto(
+                            "성별",
+                            "성별을 선택해주세요.",
+                            FormDto.SingleSelect(listOf("남", "여", "기타")),
+                            true,
+                        )
+                    )
+
                     // when
-                    surveyAdaptor.update(updateRequest)
+                    surveyAdaptor.update(
+                        savedSurvey.id,
+                        2,
+                        updateSurveyItemDtos,
+                    )
 
                     // then
-                    surveyAdaptor.findById(updateRequest.id).items shouldHaveSize 4
+                    surveyAdaptor.findById(savedSurvey.id).items shouldHaveSize 4
                 }
             }
         }
