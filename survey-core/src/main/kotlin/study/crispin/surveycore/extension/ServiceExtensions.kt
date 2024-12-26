@@ -1,9 +1,11 @@
 package study.crispin.surveycore.extension
 
 import study.crispin.surveycore.domain.Form
+import study.crispin.surveycore.domain.Submit
 import study.crispin.surveycore.domain.Survey
 import study.crispin.surveycore.domain.SurveyItem
 import study.crispin.surveyinfra.adaptor.dto.FormDto
+import study.crispin.surveyinfra.adaptor.dto.SubmitDto
 import study.crispin.surveyinfra.adaptor.dto.SurveyDto
 import study.crispin.surveyinfra.adaptor.dto.SurveyItemDto
 
@@ -40,4 +42,11 @@ fun FormDto.toDomain() = when (this) {
     is FormDto.MultiSelect -> Form.MultiSelect(this.options)
     FormDto.ShortInput -> Form.ShortInput
     is FormDto.SingleSelect -> Form.SingleSelect(this.options)
+}
+
+fun List<Submit>.toDto(): List<SubmitDto> = map {
+    SubmitDto(
+        it.name,
+        it.answer,
+    )
 }

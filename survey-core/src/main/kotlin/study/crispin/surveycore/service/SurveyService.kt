@@ -1,16 +1,21 @@
 package study.crispin.surveycore.service
 
 import org.springframework.stereotype.Service
+import study.crispin.surveycore.domain.Submit
+import study.crispin.surveycore.domain.SubmitCollection
 import study.crispin.surveycore.domain.Survey
 import study.crispin.surveycore.extension.toDomain
 import study.crispin.surveycore.extension.toDto
 import study.crispin.surveyinfra.adaptor.dto.SurveyDto
+import study.crispin.surveyinfra.port.SaveSubmitPort
 import study.crispin.surveyinfra.port.SaveSurveyPort
+import study.crispin.surveyinfra.port.SubmitPort
 import study.crispin.surveyinfra.port.SurveyPort
 
 @Service
 internal class SurveyService(
-    private val surveyPort: SurveyPort
+    private val surveyPort: SurveyPort,
+    private val submitPort: SubmitPort,
 ) : SurveyUseCase {
 
     override fun createSurvey(request: CreateSurveyUseCase.Request): Survey {
@@ -39,5 +44,24 @@ internal class SurveyService(
                 request.items.map { it.toDto() },
             )
         }
+    }
+
+    override fun submitSurvey(requests: SubmitSurveyUseCase.Requests) {
+        val findedSurvey: Survey = surveyPort.findByIdAndVersion(
+            requests.surveyId,
+            requests.version,
+        ).toDomain()
+
+        val submits: List<Submit> = requests.requests.map { it.toDomain() }
+
+        SubmitCollection(submits)
+            .submitValid(findedSurvey.items)
+
+        submitPort.save(
+            SaveSubmitPort.Request(
+                requests.surveyId,
+                submits.toDto(),
+            )
+        )
     }
 }

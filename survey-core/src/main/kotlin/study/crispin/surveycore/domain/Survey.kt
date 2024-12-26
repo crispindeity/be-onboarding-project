@@ -6,5 +6,5 @@ data class Survey(
     val id: UUID? = null,
     val name: String,
     val description: String,
-    val items: List<SurveyItem>
+    val items: List<SurveyItem>,
 )
