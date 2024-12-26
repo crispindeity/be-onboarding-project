@@ -7,7 +7,8 @@ import io.kotest.matchers.shouldBe
 import study.crispin.surveycore.domain.Form
 import study.crispin.surveycore.domain.Survey
 import study.crispin.surveycore.domain.SurveyItem
-import study.crispin.surveycore.fake.SurveyFakeAdaptor
+import study.crispin.surveycore.fake.SubmitFakePort
+import study.crispin.surveycore.fake.SurveyFakePort
 
 class SurveyServiceTest : DescribeSpec({
 
@@ -15,7 +16,8 @@ class SurveyServiceTest : DescribeSpec({
 
     beforeTest {
         surveyService = SurveyService(
-            surveyPort = SurveyFakeAdaptor()
+            surveyPort = SurveyFakePort(),
+            submitPort = SubmitFakePort(),
         )
     }
 
