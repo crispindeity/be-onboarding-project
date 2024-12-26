@@ -65,6 +65,18 @@ internal class SurveyAdaptor(
         } ?: throw IllegalArgumentException()
     }
 
+    override fun findByIdAndVersion(
+        id: UUID,
+        version: Int,
+    ): SurveyDto {
+        val surveyItemDtos: List<SurveyItemDto> =
+            surveyItemRepository.findBySurveyIdAndVersion(id, version)
+                .map { it.toDto() }
+
+        return surveyRepository.findById(id)?.toDto(surveyItemDtos)
+            ?: throw IllegalArgumentException()
+    }
+
     override fun findVersionBySurveyId(id: UUID): Int {
         return surveyItemRepository.findBySurveyIdAndMaxVersion(id)
             .first()

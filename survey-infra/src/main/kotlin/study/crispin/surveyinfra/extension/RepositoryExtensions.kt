@@ -61,6 +61,13 @@ fun SurveyEntity.toDto(): SurveyDto = SurveyDto(
     description = this.description,
 )
 
+fun SurveyEntity.toDto(surveyItemDtos: List<SurveyItemDto>): SurveyDto = SurveyDto(
+    id = this.id!!,
+    name = this.name,
+    description = this.description,
+    items = surveyItemDtos,
+)
+
 fun SurveyItemEntity.toDto(): SurveyItemDto = SurveyItemDto(
     name = this.name,
     description = this.description,

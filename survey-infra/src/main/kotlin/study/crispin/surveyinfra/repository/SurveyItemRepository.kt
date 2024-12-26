@@ -6,4 +6,5 @@ import study.crispin.surveyinfra.repository.entity.SurveyItemEntity
 internal interface SurveyItemRepository {
     fun saveAll(entities: List<SurveyItemEntity>): List<SurveyItemEntity>
     fun findBySurveyIdAndMaxVersion(id: UUID): List<SurveyItemEntity>
+    fun findBySurveyIdAndVersion(id: UUID, version: Int): List<SurveyItemEntity>
 }

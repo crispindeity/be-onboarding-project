@@ -36,4 +36,12 @@ internal class SurveyItemMemoryRepository : SurveyItemRepository {
         return storage.values
             .filter { it.surveyId == id && it.version == maxVersion}
     }
+
+    override fun findBySurveyIdAndVersion(
+        id: UUID,
+        version: Int,
+    ): List<SurveyItemEntity> {
+        return storage.values
+            .filter { it.surveyId == id  && it.version == version}
+    }
 }
