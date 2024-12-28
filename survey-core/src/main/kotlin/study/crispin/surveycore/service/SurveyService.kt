@@ -7,6 +7,7 @@ import study.crispin.surveycore.domain.Survey
 import study.crispin.surveycore.extension.toDomain
 import study.crispin.surveycore.extension.toDto
 import study.crispin.surveyinfra.adaptor.dto.SurveyDto
+import study.crispin.surveyinfra.port.FindAnswerPort
 import study.crispin.surveyinfra.port.SaveSubmitPort
 import study.crispin.surveyinfra.port.SaveSurveyPort
 import study.crispin.surveyinfra.port.SubmitPort
@@ -60,7 +61,21 @@ internal class SurveyService(
         submitPort.save(
             SaveSubmitPort.Request(
                 requests.surveyId,
+                requests.version,
                 submits.toDto(),
+            )
+        )
+    }
+
+    override fun findSurvey(request: FindSurveyUseCase.Request): SurveyDto {
+        return surveyPort.findById(request.surveyId)
+    }
+
+    override fun findSubmit(request: FindSubmitUseCase.Request) {
+        submitPort.find(
+            FindAnswerPort.Request(
+                request.surveyId,
+                request.version,
             )
         )
     }

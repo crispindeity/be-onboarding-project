@@ -9,7 +9,7 @@ interface UpdateSurveyUseCase {
         val id: UUID,
         val name: String,
         val description: String,
-        val items: List<SurveyItem>
+        val items: List<SurveyItem> = emptyList(),
     )
 
     fun updateSurvey(request: Request)
