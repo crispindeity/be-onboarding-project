@@ -7,7 +7,6 @@ import study.crispin.surveyinfra.port.SaveSurveyPort
 import study.crispin.surveyinfra.port.SurveyPort
 
 class SurveyFakePort : SurveyPort {
-
     private val surveys = mutableMapOf<UUID, SurveyDto>()
     private val surveyItems = mutableMapOf<Pair<UUID, Int>, List<SurveyItemDto>>()
 
