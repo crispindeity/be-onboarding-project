@@ -6,6 +6,7 @@ object Versions {
     const val KOTLIN = "2.0.21"
     const val MANAGEMENT_PLUGIN = "1.1.6"
     const val SPRING_BOOT_GRADLE_PLUGIN = "3.4.0"
+    const val KOTLINTER = "5.0.1"
 }
 
 object Dependencies {
@@ -19,6 +20,8 @@ object Dependencies {
         "io.spring.gradle:dependency-management-plugin:${Versions.MANAGEMENT_PLUGIN}"
     const val SPRING_BOOT_GRADLE_PLUGIN =
         "org.springframework.boot:spring-boot-gradle-plugin:${Versions.SPRING_BOOT_GRADLE_PLUGIN}"
+    const val KOTLINTER =
+        "org.jmailen.gradle:kotlinter-gradle:${Versions.KOTLINTER}"
 }
 
 repositories {
@@ -32,4 +35,18 @@ dependencies {
     implementation(Dependencies.KOTLIN_GRADLE_PLUGIN)
     implementation(Dependencies.MANAGEMENT_PLUGIN)
     implementation(Dependencies.SPRING_BOOT_GRADLE_PLUGIN)
+    implementation(Dependencies.KOTLINTER)
+}
+
+gradlePlugin {
+    plugins {
+        create("kotlinter") {
+            id = "kotlinter"
+            implementationClass = "internal.LintPlugin"
+        }
+    }
+}
+
+kotlin {
+    jvmToolchain(17)
 }
