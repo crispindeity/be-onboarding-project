@@ -11,5 +11,5 @@ plugins {
 
 include(
     ":survey-core",
-    ":survey-infra",
+    ":survey-infra"
 )
