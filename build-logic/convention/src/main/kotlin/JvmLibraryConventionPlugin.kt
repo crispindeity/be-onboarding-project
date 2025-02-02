@@ -1,6 +1,7 @@
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import study.crispin.convention.configureKotlinJvm
+import study.crispin.convention.gitHookInstall
 import study.crispin.convention.plugins
 
 class JvmLibraryConventionPlugin : Plugin<Project> {
@@ -12,6 +13,7 @@ class JvmLibraryConventionPlugin : Plugin<Project> {
                 "org.jmailen.kotlinter"
             )
             configureKotlinJvm()
+            gitHookInstall()
         }
     }
 }
