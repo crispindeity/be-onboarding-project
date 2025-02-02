@@ -7,7 +7,7 @@ data class SurveyItemEntity(
     var name: String,
     var description: String,
     val form: FormEmbeddable,
-    var required: Boolean,
+    var required: Boolean
 ) {
     var id: UUID? = null
         private set
@@ -32,17 +32,16 @@ data class SurveyItemEntity(
             description: String,
             form: FormEmbeddable,
             required: Boolean,
-            id: UUID,
-        ): SurveyItemEntity {
-            return SurveyItemEntity(
+            id: UUID
+        ): SurveyItemEntity =
+            SurveyItemEntity(
                 surveyId,
                 name,
                 description,
                 form,
-                required,
+                required
             ).apply {
                 this.id = id
             }
-        }
     }
 }

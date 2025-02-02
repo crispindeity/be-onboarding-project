@@ -4,7 +4,7 @@ import java.util.UUID
 
 data class SurveyEntity(
     var name: String,
-    var description: String,
+    var description: String
 ) {
     var id: UUID? = null
         private set
@@ -13,12 +13,11 @@ data class SurveyEntity(
         fun createWithId(
             name: String,
             description: String,
-            id: UUID,
-        ): SurveyEntity {
-            return SurveyEntity(name, description).apply {
+            id: UUID
+        ): SurveyEntity =
+            SurveyEntity(name, description).apply {
                 this.id = id
             }
-        }
     }
 
     fun update(entity: SurveyEntity): SurveyEntity {

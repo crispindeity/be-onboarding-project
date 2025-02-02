@@ -6,42 +6,42 @@ import study.crispin.surveyinfra.repository.entity.SurveyItemEntity
 
 @Repository
 internal class SurveyItemMemoryRepository : SurveyItemRepository {
-
     private val storage: MutableMap<UUID, SurveyItemEntity> = mutableMapOf()
 
-    override fun saveAll(entities: List<SurveyItemEntity>): List<SurveyItemEntity> {
-        return entities.map {
+    override fun saveAll(entities: List<SurveyItemEntity>): List<SurveyItemEntity> =
+        entities.map {
             when (it.id) {
-                null -> it.run {
-                    val newId: UUID = UUID.randomUUID()
-                    SurveyItemEntity.createWithId(
-                        surveyId,
-                        name,
-                        description,
-                        form,
-                        required,
-                        newId,
-                    ).also { storage[newId] = this }
-                }
+                null ->
+                    it.run {
+                        val newId: UUID = UUID.randomUUID()
+                        SurveyItemEntity
+                            .createWithId(
+                                surveyId,
+                                name,
+                                description,
+                                form,
+                                required,
+                                newId
+                            ).also { storage[newId] = this }
+                    }
 
                 else -> throw IllegalArgumentException()
             }
         }
-    }
 
     override fun findBySurveyIdAndMaxVersion(id: UUID): List<SurveyItemEntity> {
-        val maxVersion: Int = storage.values
-            .filter { it.surveyId == id }
-            .maxOf { it.version }
+        val maxVersion: Int =
+            storage.values
+                .filter { it.surveyId == id }
+                .maxOf { it.version }
         return storage.values
-            .filter { it.surveyId == id && it.version == maxVersion}
+            .filter { it.surveyId == id && it.version == maxVersion }
     }
 
     override fun findBySurveyIdAndVersion(
         id: UUID,
-        version: Int,
-    ): List<SurveyItemEntity> {
-        return storage.values
-            .filter { it.surveyId == id  && it.version == version}
-    }
+        version: Int
+    ): List<SurveyItemEntity> =
+        storage.values
+            .filter { it.surveyId == id && it.version == version }
 }

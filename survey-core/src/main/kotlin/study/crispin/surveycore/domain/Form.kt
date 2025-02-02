@@ -2,9 +2,16 @@ package study.crispin.surveycore.domain
 
 sealed class Form {
     data object LongInput : Form()
+
     data object ShortInput : Form()
-    data class MultiSelect(val options: List<String>) : Form()
-    data class SingleSelect(val options: List<String>) : Form()
+
+    data class MultiSelect(
+        val options: List<String>
+    ) : Form()
+
+    data class SingleSelect(
+        val options: List<String>
+    ) : Form()
 
     fun valid(answer: List<String>) {
         when (this) {
@@ -27,13 +34,19 @@ sealed class Form {
         }
     }
 
-    private fun validateMultiSelect(answer: List<String>, options: List<String>) {
+    private fun validateMultiSelect(
+        answer: List<String>,
+        options: List<String>
+    ) {
         require(options.containsAll(answer)) {
             "Invalid multi-select options. Answers $answer contain options not in the allowed list: $options"
         }
     }
 
-    private fun validateSingleSelect(answer: List<String>, options: List<String>) {
+    private fun validateSingleSelect(
+        answer: List<String>,
+        options: List<String>
+    ) {
         require(answer.size == 1) {
             "Single select form requires exactly one answer, but received ${answer.size} answers"
         }

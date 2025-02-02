@@ -15,71 +15,74 @@ import study.crispin.surveyinfra.repository.entity.SurveyEntity
 @Component
 internal class SurveyAdaptor(
     private val surveyRepository: SurveyRepository,
-    private val surveyItemRepository: SurveyItemRepository,
+    private val surveyItemRepository: SurveyItemRepository
 ) : SurveyPort {
     override fun save(request: SaveSurveyPort.Request): SurveyDto {
         val surveyDto: SurveyDto = surveyRepository.save(request.toEntity()).toDto()
-        val surveyItemDtos: List<SurveyItemDto> = surveyItemRepository.saveAll(
-            request.items.map {
-                it.toEntity(surveyDto.id)
-            }
-        ).map {
-            it.toDto()
-        }
+        val surveyItemDtos: List<SurveyItemDto> =
+            surveyItemRepository
+                .saveAll(
+                    request.items.map {
+                        it.toEntity(surveyDto.id)
+                    }
+                ).map {
+                    it.toDto()
+                }
         return surveyDto.update(surveyItemDtos)
     }
 
     override fun update(surveyDto: SurveyDto) {
-        val updatedEntity: SurveyEntity = SurveyEntity.createWithId(
-            id = surveyDto.id,
-            name = surveyDto.name,
-            description = surveyDto.description,
-        )
+        val updatedEntity: SurveyEntity =
+            SurveyEntity.createWithId(
+                id = surveyDto.id,
+                name = surveyDto.name,
+                description = surveyDto.description
+            )
         surveyRepository.save(updatedEntity)
     }
 
     override fun update(
         surveyId: UUID,
         surveyItemVersion: Int,
-        surveyItemDtos: List<SurveyItemDto>,
+        surveyItemDtos: List<SurveyItemDto>
     ) {
         surveyItemRepository.saveAll(
             surveyItemDtos.map {
                 it.toEntity(
                     surveyId,
-                    surveyItemVersion,
+                    surveyItemVersion
                 )
             }
         )
     }
 
-    override fun findById(id: UUID): SurveyDto {
-        return surveyRepository.findById(id)?.let { entity ->
+    override fun findById(id: UUID): SurveyDto =
+        surveyRepository.findById(id)?.let { entity ->
             val surveyDto: SurveyDto = entity.toDto()
 
             val surveyItemDtos: List<SurveyItemDto> =
-                surveyItemRepository.findBySurveyIdAndMaxVersion(surveyDto.id)
+                surveyItemRepository
+                    .findBySurveyIdAndMaxVersion(surveyDto.id)
                     .map { it.toDto() }
             surveyDto.update(surveyItemDtos)
-
         } ?: throw IllegalArgumentException()
-    }
 
     override fun findByIdAndVersion(
         id: UUID,
-        version: Int,
+        version: Int
     ): SurveyDto {
         val surveyItemDtos: List<SurveyItemDto> =
-            surveyItemRepository.findBySurveyIdAndVersion(id, version)
+            surveyItemRepository
+                .findBySurveyIdAndVersion(id, version)
                 .map { it.toDto() }
 
         return surveyRepository.findById(id)?.toDto(surveyItemDtos)
             ?: throw IllegalArgumentException()
     }
 
-    override fun findVersionBySurveyId(id: UUID): Int {
-        return surveyItemRepository.findBySurveyIdAndMaxVersion(id)
+    override fun findVersionBySurveyId(id: UUID): Int =
+        surveyItemRepository
+            .findBySurveyIdAndMaxVersion(id)
             .first()
             .version
-    }
 }

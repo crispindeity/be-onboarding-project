@@ -1,9 +1,7 @@
 plugins {
-    id("gradle.kotlin")
-    id("gradle.spring")
-    id("gradle.project")
-    id("gradle.test")
-    id("kotlinter")
+    alias(libs.plugins.jvm.library)
+    alias(libs.plugins.kotlin.spring)
+    alias(libs.plugins.kotlin.spring.test)
 }
 
 dependencies {

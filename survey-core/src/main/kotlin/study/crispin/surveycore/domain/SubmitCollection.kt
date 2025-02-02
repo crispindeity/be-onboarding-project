@@ -25,7 +25,7 @@ data class SubmitCollection(
 
         require(surveyItemNames == submitNames) {
             "Submission names do not match survey item names. " +
-                    "Survey items: $surveyItemNames, Submissions: $submitNames"
+                "Survey items: $surveyItemNames, Submissions: $submitNames"
         }
     }
 
@@ -34,8 +34,9 @@ data class SubmitCollection(
         val submitMap: Map<String, Submit> = submits.associateBy { it.name }
 
         surveyItemMap.forEach { (itemName: String, surveyItem: SurveyItem) ->
-            val submit: Submit = submitMap[itemName]
-                ?: throw IllegalStateException("No submission found for item: $itemName")
+            val submit: Submit =
+                submitMap[itemName]
+                    ?: throw IllegalStateException("No submission found for item: $itemName")
             surveyItem.form.valid(submit.answer)
         }
     }

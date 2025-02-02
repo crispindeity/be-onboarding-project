@@ -1,12 +1,7 @@
 plugins {
-    id("gradle.kotlin")
-    id("gradle.spring")
-    id("gradle.project")
-    id("gradle.test")
-    id("kotlinter")
-}
-
-dependencies {
+    alias(libs.plugins.jvm.library)
+    alias(libs.plugins.kotlin.spring)
+    alias(libs.plugins.kotlin.spring.test)
 }
 
 tasks.bootJar {
@@ -16,4 +11,3 @@ tasks.bootJar {
 tasks.jar {
     enabled = true
 }
-

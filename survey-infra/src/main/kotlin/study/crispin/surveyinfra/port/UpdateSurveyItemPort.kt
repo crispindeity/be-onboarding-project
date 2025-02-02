@@ -7,6 +7,6 @@ interface UpdateSurveyItemPort {
     fun update(
         surveyId: UUID,
         surveyItemVersion: Int,
-        surveyItemDtos: List<SurveyItemDto>,
+        surveyItemDtos: List<SurveyItemDto>
     )
 }

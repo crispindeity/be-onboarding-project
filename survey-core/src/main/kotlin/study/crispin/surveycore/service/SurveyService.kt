@@ -16,24 +16,25 @@ import study.crispin.surveyinfra.port.SurveyPort
 @Service
 internal class SurveyService(
     private val surveyPort: SurveyPort,
-    private val submitPort: SubmitPort,
+    private val submitPort: SubmitPort
 ) : SurveyUseCase {
-
     override fun createSurvey(request: CreateSurveyUseCase.Request): Survey {
-        val saveRequest = SaveSurveyPort.Request(
-            request.name,
-            request.description,
-            request.items.map { it.toDto() },
-        )
+        val saveRequest =
+            SaveSurveyPort.Request(
+                request.name,
+                request.description,
+                request.items.map { it.toDto() }
+            )
         return surveyPort.save(saveRequest).toDomain()
     }
 
     override fun updateSurvey(request: UpdateSurveyUseCase.Request) {
         surveyPort.findById(request.id).let { surveyDto ->
-            val updatedSurveyDto: SurveyDto = surveyDto.update(
-                request.name,
-                request.description,
-            )
+            val updatedSurveyDto: SurveyDto =
+                surveyDto.update(
+                    request.name,
+                    request.description
+                )
             surveyPort.update(updatedSurveyDto)
         }
 
@@ -42,16 +43,18 @@ internal class SurveyService(
             surveyPort.update(
                 request.id,
                 version + 1,
-                request.items.map { it.toDto() },
+                request.items.map { it.toDto() }
             )
         }
     }
 
     override fun submitSurvey(requests: SubmitSurveyUseCase.Requests) {
-        val findedSurvey: Survey = surveyPort.findByIdAndVersion(
-            requests.surveyId,
-            requests.version,
-        ).toDomain()
+        val findedSurvey: Survey =
+            surveyPort
+                .findByIdAndVersion(
+                    requests.surveyId,
+                    requests.version
+                ).toDomain()
 
         val submits: List<Submit> = requests.requests.map { it.toDomain() }
 
@@ -62,20 +65,19 @@ internal class SurveyService(
             SaveSubmitPort.Request(
                 requests.surveyId,
                 requests.version,
-                submits.toDto(),
+                submits.toDto()
             )
         )
     }
 
-    override fun findSurvey(request: FindSurveyUseCase.Request): SurveyDto {
-        return surveyPort.findById(request.surveyId)
-    }
+    override fun findSurvey(request: FindSurveyUseCase.Request): SurveyDto =
+        surveyPort.findById(request.surveyId)
 
     override fun findSubmit(request: FindSubmitUseCase.Request) {
         submitPort.find(
             FindAnswerPort.Request(
                 request.surveyId,
-                request.version,
+                request.version
             )
         )
     }
