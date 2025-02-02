@@ -66,7 +66,7 @@ internal abstract class InstallPreCommitHookTask : DefaultTask() {
             """
             #!/bin/sh
             ./gradlew lintKotlin
-        """.trimIndent()
+            """.trimIndent()
         )
         hookFile.setExecutable(true)
     }
@@ -81,7 +81,7 @@ internal abstract class InstallPrePushHookTask : DefaultTask() {
             """
             #!/bin/sh
             ./gradlew formatKotlin
-        """.trimIndent()
+            """.trimIndent()
         )
         hookFile.setExecutable(true)
     }

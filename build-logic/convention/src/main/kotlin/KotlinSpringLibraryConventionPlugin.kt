@@ -1,8 +1,8 @@
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import study.crispin.convention.plugins
-import study.crispin.convention.libs
 import org.gradle.kotlin.dsl.dependencies
+import study.crispin.convention.libs
+import study.crispin.convention.plugins
 
 class KotlinSpringLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -10,7 +10,7 @@ class KotlinSpringLibraryConventionPlugin : Plugin<Project> {
             plugins(
                 "org.springframework.boot",
                 "io.spring.dependency-management",
-                "org.jetbrains.kotlin.plugin.spring",
+                "org.jetbrains.kotlin.plugin.spring"
             )
 
             dependencies {

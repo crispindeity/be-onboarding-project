@@ -5,7 +5,6 @@ import study.crispin.convention.configureKotlinJvm
 import study.crispin.convention.configureTestTask
 import study.crispin.convention.libs
 
-
 class KotlinTestLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
