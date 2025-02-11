@@ -1,7 +1,7 @@
 package study.crispin.surveycore.port
 
 import java.util.UUID
-import study.crispin.surveycore.domain.Submit
+import study.crispin.surveycore.domain.Submission
 
 interface SubmitSurveyUseCase {
     data class Requests(
@@ -15,8 +15,8 @@ interface SubmitSurveyUseCase {
         val answer: List<String>
     )
 
-    fun Request.toDomain(): Submit =
-        Submit(
+    fun Request.toDomain(): Submission =
+        Submission(
             name = this.name,
             answer = this.answer
         )

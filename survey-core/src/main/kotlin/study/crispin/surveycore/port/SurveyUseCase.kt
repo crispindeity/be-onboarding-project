@@ -5,4 +5,4 @@ interface SurveyUseCase :
     UpdateSurveyUseCase,
     SubmitSurveyUseCase,
     FindSurveyUseCase,
-    FindSubmitUseCase
+    FindSubmissionUseCase

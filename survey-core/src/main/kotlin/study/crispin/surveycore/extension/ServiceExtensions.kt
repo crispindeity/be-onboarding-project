@@ -1,11 +1,11 @@
 package study.crispin.surveycore.extension
 
 import study.crispin.surveycore.domain.Form
-import study.crispin.surveycore.domain.Submit
+import study.crispin.surveycore.domain.Submission
 import study.crispin.surveycore.domain.Survey
 import study.crispin.surveycore.domain.SurveyItem
 import study.crispin.surveyinfra.adaptor.dto.FormDto
-import study.crispin.surveyinfra.adaptor.dto.SubmitDto
+import study.crispin.surveyinfra.adaptor.dto.SubmissionDto
 import study.crispin.surveyinfra.adaptor.dto.SurveyDto
 import study.crispin.surveyinfra.adaptor.dto.SurveyItemDto
 
@@ -49,9 +49,9 @@ fun FormDto.toDomain() =
         is FormDto.SingleSelect -> Form.SingleSelect(this.options)
     }
 
-fun List<Submit>.toDto(): List<SubmitDto> =
+fun List<Submission>.toDto(): List<SubmissionDto> =
     map {
-        SubmitDto(
+        SubmissionDto(
             it.name,
             it.answer
         )

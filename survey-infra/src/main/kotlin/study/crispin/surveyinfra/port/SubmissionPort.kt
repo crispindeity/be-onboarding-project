@@ -1,5 +1,5 @@
 package study.crispin.surveyinfra.port
 
-interface SubmitPort :
-    SaveSubmitPort,
+interface SubmissionPort :
+    SaveSubmissionPort,
     FindAnswerPort

@@ -1,13 +1,13 @@
 package study.crispin.surveyinfra.port
 
 import java.util.UUID
-import study.crispin.surveyinfra.adaptor.dto.SubmitDto
+import study.crispin.surveyinfra.adaptor.dto.SubmissionDto
 
-interface SaveSubmitPort {
+interface SaveSubmissionPort {
     data class Request(
         val surveyId: UUID,
         val version: Int,
-        val submitDtos: List<SubmitDto>
+        val submissionDtos: List<SubmissionDto>
     )
 
     fun save(request: Request)

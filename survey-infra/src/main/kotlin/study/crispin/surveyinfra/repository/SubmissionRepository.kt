@@ -1,3 +1,3 @@
 package study.crispin.surveyinfra.repository
 
-interface SubmitRepository
+interface SubmissionRepository

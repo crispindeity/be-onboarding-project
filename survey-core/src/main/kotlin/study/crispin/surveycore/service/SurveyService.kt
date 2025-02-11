@@ -1,28 +1,28 @@
 package study.crispin.surveycore.service
 
 import org.springframework.stereotype.Service
-import study.crispin.surveycore.domain.Submit
-import study.crispin.surveycore.domain.SubmitCollection
+import study.crispin.surveycore.domain.Submission
+import study.crispin.surveycore.domain.SubmissionCollection
 import study.crispin.surveycore.domain.Survey
 import study.crispin.surveycore.extension.toDomain
 import study.crispin.surveycore.extension.toDto
 import study.crispin.surveycore.port.CreateSurveyUseCase
-import study.crispin.surveycore.port.FindSubmitUseCase
+import study.crispin.surveycore.port.FindSubmissionUseCase
 import study.crispin.surveycore.port.FindSurveyUseCase
 import study.crispin.surveycore.port.SubmitSurveyUseCase
 import study.crispin.surveycore.port.SurveyUseCase
 import study.crispin.surveycore.port.UpdateSurveyUseCase
 import study.crispin.surveyinfra.adaptor.dto.SurveyDto
 import study.crispin.surveyinfra.port.FindAnswerPort
-import study.crispin.surveyinfra.port.SaveSubmitPort
+import study.crispin.surveyinfra.port.SaveSubmissionPort
 import study.crispin.surveyinfra.port.SaveSurveyPort
-import study.crispin.surveyinfra.port.SubmitPort
+import study.crispin.surveyinfra.port.SubmissionPort
 import study.crispin.surveyinfra.port.SurveyPort
 
 @Service
 internal class SurveyService(
     private val surveyPort: SurveyPort,
-    private val submitPort: SubmitPort
+    private val submissionPort: SubmissionPort
 ) : SurveyUseCase {
     override fun createSurvey(request: CreateSurveyUseCase.Request): Survey {
         val saveRequest =
@@ -62,16 +62,16 @@ internal class SurveyService(
                     requests.version
                 ).toDomain()
 
-        val submits: List<Submit> = requests.requests.map { it.toDomain() }
+        val submissions: List<Submission> = requests.requests.map { it.toDomain() }
 
-        SubmitCollection(submits)
-            .submitValid(findedSurvey.items)
+        SubmissionCollection(submissions)
+            .submissionValid(findedSurvey.items)
 
-        submitPort.save(
-            SaveSubmitPort.Request(
+        submissionPort.save(
+            SaveSubmissionPort.Request(
                 requests.surveyId,
                 requests.version,
-                submits.toDto()
+                submissions.toDto()
             )
         )
     }
@@ -79,8 +79,8 @@ internal class SurveyService(
     override fun findSurvey(request: FindSurveyUseCase.Request): SurveyDto =
         surveyPort.findById(request.surveyId)
 
-    override fun findSubmit(request: FindSubmitUseCase.Request) {
-        submitPort.find(
+    override fun findSubmission(request: FindSubmissionUseCase.Request) {
+        submissionPort.find(
             FindAnswerPort.Request(
                 request.surveyId,
                 request.version

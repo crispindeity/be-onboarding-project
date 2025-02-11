@@ -1,6 +1,6 @@
 package study.crispin.surveycore.domain
 
-data class Submit(
+data class Submission(
     val name: String,
     val answer: List<String>
 )
