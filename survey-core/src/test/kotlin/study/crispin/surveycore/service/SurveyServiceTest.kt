@@ -10,6 +10,10 @@ import study.crispin.surveycore.domain.SurveyItem
 import study.crispin.surveycore.extension.toDomain
 import study.crispin.surveycore.fake.SubmitFakePort
 import study.crispin.surveycore.fake.SurveyFakePort
+import study.crispin.surveycore.port.CreateSurveyUseCase
+import study.crispin.surveycore.port.FindSurveyUseCase
+import study.crispin.surveycore.port.SurveyUseCase
+import study.crispin.surveycore.port.UpdateSurveyUseCase
 
 class SurveyServiceTest :
     DescribeSpec({

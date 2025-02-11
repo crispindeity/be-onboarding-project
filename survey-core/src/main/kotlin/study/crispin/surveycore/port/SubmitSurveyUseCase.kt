@@ -1,4 +1,4 @@
-package study.crispin.surveycore.service
+package study.crispin.surveycore.port
 
 import java.util.UUID
 import study.crispin.surveycore.domain.Submit

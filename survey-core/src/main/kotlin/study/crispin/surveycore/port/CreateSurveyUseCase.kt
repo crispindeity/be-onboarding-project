@@ -1,4 +1,4 @@
-package study.crispin.surveycore.service
+package study.crispin.surveycore.port
 
 import study.crispin.surveycore.domain.Survey
 import study.crispin.surveycore.domain.SurveyItem
