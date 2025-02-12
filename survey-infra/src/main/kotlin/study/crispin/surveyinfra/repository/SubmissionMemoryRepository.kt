@@ -17,9 +17,10 @@ internal class SubmissionMemoryRepository : SubmissionRepository {
                         SubmissionEntity
                             .createWithId(
                                 entity.name,
-                                entity.surveyItemId,
+                                entity.surveyId,
                                 entity.surveyItemVersion,
-                                entity.answers
+                                entity.answers,
+                                newId
                             ).also { storage[newId] = it }
                     }
                 }
