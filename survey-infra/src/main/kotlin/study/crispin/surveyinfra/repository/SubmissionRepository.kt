@@ -4,7 +4,12 @@ import java.util.UUID
 import study.crispin.surveyinfra.repository.entity.SubmissionEntity
 
 interface SubmissionRepository {
-    fun save(entity: SubmissionEntity): SubmissionEntity
+    fun saveAll(entities: List<SubmissionEntity>): List<SubmissionEntity>
 
     fun findById(id: UUID): SubmissionEntity?
+
+    fun findAllBySurveyIdAndAnswerVersion(
+        surveyId: UUID,
+        answerVersion: Int
+    ): List<SubmissionEntity>
 }

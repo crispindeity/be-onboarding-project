@@ -8,26 +8,34 @@ import study.crispin.surveyinfra.repository.entity.SubmissionEntity
 internal class SubmissionMemoryRepository : SubmissionRepository {
     private val storage: MutableMap<UUID, SubmissionEntity> = mutableMapOf()
 
-    override fun save(entity: SubmissionEntity): SubmissionEntity {
-        val savedEntity: SubmissionEntity =
-            when (val id: UUID? = entity.id) {
-                null -> {
-                    entity.run {
+    override fun saveAll(entities: List<SubmissionEntity>): List<SubmissionEntity> =
+        entities.map {
+            when (it.id) {
+                null ->
+                    it.run {
                         val newId: UUID = UUID.randomUUID()
                         SubmissionEntity
                             .createWithId(
-                                entity.name,
-                                entity.surveyId,
-                                entity.surveyItemVersion,
-                                entity.answers,
+                                it.name,
+                                it.surveyId,
+                                it.surveyItemVersion,
+                                it.answers,
                                 newId
                             ).also { storage[newId] = it }
                     }
-                }
-                else -> entity.update(entity).also { storage[id] = it }
+
+                else -> throw IllegalArgumentException()
             }
-        return savedEntity
-    }
+        }
 
     override fun findById(id: UUID): SubmissionEntity? = storage[id]
+
+    override fun findAllBySurveyIdAndAnswerVersion(
+        surveyId: UUID,
+        answerVersion: Int
+    ): List<SubmissionEntity> =
+        storage.values.filter {
+            it.surveyId == surveyId &&
+                it.surveyItemVersion == answerVersion
+        }
 }
