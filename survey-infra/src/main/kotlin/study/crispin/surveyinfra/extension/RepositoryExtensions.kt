@@ -2,11 +2,14 @@ package study.crispin.surveyinfra.extension
 
 import java.util.UUID
 import study.crispin.surveyinfra.adaptor.dto.FormDto
+import study.crispin.surveyinfra.adaptor.dto.SubmissionDto
 import study.crispin.surveyinfra.adaptor.dto.SurveyDto
 import study.crispin.surveyinfra.adaptor.dto.SurveyItemDto
+import study.crispin.surveyinfra.port.SaveSubmissionPort
 import study.crispin.surveyinfra.port.SaveSurveyPort
 import study.crispin.surveyinfra.repository.entity.FormEmbeddable
 import study.crispin.surveyinfra.repository.entity.FormType
+import study.crispin.surveyinfra.repository.entity.SubmissionEntity
 import study.crispin.surveyinfra.repository.entity.SurveyEntity
 import study.crispin.surveyinfra.repository.entity.SurveyItemEntity
 
@@ -91,3 +94,19 @@ fun FormEmbeddable.toDto(): FormDto =
         FormType.MULTI_SELECT -> FormDto.MultiSelect(this.options)
         FormType.SINGLE_SELECT -> FormDto.SingleSelect(this.options)
     }
+
+fun SaveSubmissionPort.Request.toEntity(): List<SubmissionEntity> =
+    this.submissionDtos.map {
+        SubmissionEntity(
+            surveyId = this.surveyId,
+            surveyItemVersion = this.version,
+            name = it.name,
+            answers = it.answer
+        )
+    }
+
+fun SubmissionEntity.toDto(): SubmissionDto =
+    SubmissionDto(
+        name = this.name,
+        answer = this.answers
+    )
