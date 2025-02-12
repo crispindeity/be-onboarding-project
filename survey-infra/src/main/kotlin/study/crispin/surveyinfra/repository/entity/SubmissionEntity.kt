@@ -5,7 +5,7 @@ import java.util.UUID
 
 data class SubmissionEntity(
     val name: String,
-    val surveyItemId: UUID,
+    val surveyId: UUID,
     val surveyItemVersion: Int,
     val answers: List<String> = emptyList()
 ) {
@@ -17,13 +17,14 @@ data class SubmissionEntity(
     companion object {
         fun createWithId(
             name: String,
-            surveyItemId: UUID,
+            surveyId: UUID,
             surveyItemVersion: Int,
-            answers: List<String>
+            answers: List<String>,
+            id: UUID
         ): SubmissionEntity =
             SubmissionEntity(
                 name,
-                surveyItemId,
+                surveyId,
                 surveyItemVersion,
                 answers
             ).apply {
