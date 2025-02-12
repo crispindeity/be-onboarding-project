@@ -8,7 +8,6 @@ import study.crispin.surveycore.domain.Form
 import study.crispin.surveycore.domain.Survey
 import study.crispin.surveycore.domain.SurveyItem
 import study.crispin.surveycore.extension.toDomain
-import study.crispin.surveycore.fake.SubmissionFakePort
 import study.crispin.surveycore.fake.SurveyFakePort
 import study.crispin.surveycore.port.CreateSurveyUseCase
 import study.crispin.surveycore.port.FindSurveyUseCase
@@ -23,8 +22,7 @@ class SurveyServiceTest :
         beforeTest {
             surveyService =
                 SurveyService(
-                    surveyPort = SurveyFakePort(),
-                    submissionPort = SubmissionFakePort()
+                    surveyPort = SurveyFakePort()
                 )
         }
 
