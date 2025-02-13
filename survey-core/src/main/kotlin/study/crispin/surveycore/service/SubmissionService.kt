@@ -19,14 +19,14 @@ class SubmissionService(
     private val surveyPort: SurveyPort,
     private val submissionPort: SubmissionPort
 ) : SubmissionUseCase {
-    override fun findSubmission(request: FindSubmissionUseCase.Request) {
-        submissionPort.find(
-            FindAnswerPort.Request(
-                request.surveyId,
-                request.version
-            )
-        )
-    }
+    override fun findSubmission(request: FindSubmissionUseCase.Request): List<Submission> =
+        submissionPort
+            .find(
+                FindAnswerPort.Request(
+                    request.surveyId,
+                    request.version
+                )
+            ).toDomain()
 
     override fun submitSurvey(requests: SubmitSurveyUseCase.Requests) {
         val findedSurvey: Survey =
@@ -36,7 +36,10 @@ class SubmissionService(
                     requests.version
                 ).toDomain()
 
-        val submissions: List<Submission> = requests.requests.map { it.toDomain() }
+        val submissions: List<Submission> =
+            requests.requests.map {
+                it.toDomain()
+            }
 
         SubmissionCollection(submissions)
             .submissionValid(findedSurvey.items)

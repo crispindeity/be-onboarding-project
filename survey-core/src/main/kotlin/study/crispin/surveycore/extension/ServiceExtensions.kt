@@ -4,6 +4,7 @@ import study.crispin.surveycore.domain.Form
 import study.crispin.surveycore.domain.Submission
 import study.crispin.surveycore.domain.Survey
 import study.crispin.surveycore.domain.SurveyItem
+import study.crispin.surveycore.port.SubmitSurveyUseCase
 import study.crispin.surveyinfra.adaptor.dto.FormDto
 import study.crispin.surveyinfra.adaptor.dto.SubmissionDto
 import study.crispin.surveyinfra.adaptor.dto.SurveyDto
@@ -52,7 +53,21 @@ fun FormDto.toDomain() =
 fun List<Submission>.toDto(): List<SubmissionDto> =
     map {
         SubmissionDto(
-            it.name,
-            it.answer
+            name = it.name,
+            answer = it.answer
         )
     }
+
+fun List<SubmissionDto>.toDomain(): List<Submission> =
+    map {
+        Submission(
+            name = it.name,
+            answer = it.answer
+        )
+    }
+
+fun SubmitSurveyUseCase.Request.toDomain(): Submission =
+    Submission(
+        name = this.name,
+        answer = this.answer
+    )
