@@ -17,8 +17,8 @@ sealed class Form {
         when (this) {
             LongInput -> validateLongInput(answer)
             ShortInput -> validateShortInput(answer)
-            is MultiSelect -> validateMultiSelect(answer, options)
-            is SingleSelect -> validateSingleSelect(answer, options)
+            is MultiSelect -> validateMultiSelect(answer, this.options)
+            is SingleSelect -> validateSingleSelect(answer, this.options)
         }
     }
 
@@ -38,8 +38,9 @@ sealed class Form {
         answer: List<String>,
         options: List<String>
     ) {
-        require(options.containsAll(answer)) {
-            "Invalid multi-select options. Answers $answer contain options not in the allowed list: $options"
+        require(options.containsAll(answer) || answer.count { it !in options } == 0) {
+            "Invalid multi-select options. Answers $answer contain " +
+                "options not in the allowed list: $options"
         }
     }
 
@@ -51,7 +52,8 @@ sealed class Form {
             "Single select form requires exactly one answer, but received ${answer.size} answers"
         }
         require(options.contains(answer.first())) {
-            "Invalid single select option. Answer '${answer.first()}' is not in the allowed options: $options"
+            "Invalid single select option. Answer '${answer.first()}'" +
+                " is not in the allowed options: $options"
         }
     }
 }
