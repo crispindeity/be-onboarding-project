@@ -28,7 +28,6 @@ class SubmissionAdaptorTest :
 
         beforeTest {
             val surveyId = UUID(0L, 0L)
-            val surveyItemId = UUID(-1L, -1L)
             submissionRepository = SubmissionMemoryRepository()
             surveyRepository = SurveyMemoryRepository()
             surveyItemRepository = SurveyItemMemoryRepository()
