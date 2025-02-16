@@ -1,5 +1,6 @@
 package study.crispin.surveycore.service
 
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import java.util.UUID
@@ -96,10 +97,12 @@ class SubmissionServiceTest :
                                     )
                             )
                         // when & then
-                        submissionService.submitSurvey(requests)
+                        shouldNotThrowAny {
+                            submissionService.submitSurvey(requests)
+                        }
                     }
 
-                    it("제출한 응답을 제출 할 수 있어야 한다.") {
+                    it("다중 선택 응답에 대해 부분 선택이 가능해야 한다") {
                         // given
                         val requests =
                             SubmitSurveyUseCase.Requests(
@@ -126,7 +129,41 @@ class SubmissionServiceTest :
                                     )
                             )
                         // when & then
-                        submissionService.submitSurvey(requests)
+                        shouldNotThrowAny {
+                            submissionService.submitSurvey(requests)
+                        }
+                    }
+
+                    it("제출한 응답을 제출 할 수 있어야 한다.") {
+                        // given
+                        val requests =
+                            SubmitSurveyUseCase.Requests(
+                                surveyId = surveyId,
+                                version = 0,
+                                requests =
+                                    listOf(
+                                        SubmitSurveyUseCase.Request(
+                                            name = "이름",
+                                            answer = listOf("응답봇1")
+                                        ),
+                                        SubmitSurveyUseCase.Request(
+                                            name = "나이",
+                                            answer = listOf("10")
+                                        ),
+                                        SubmitSurveyUseCase.Request(
+                                            name = "관심사",
+                                            answer = listOf("음악", "스포츠", "기술")
+                                        ),
+                                        SubmitSurveyUseCase.Request(
+                                            name = "성별",
+                                            answer = listOf("남")
+                                        )
+                                    )
+                            )
+                        // when & then
+                        shouldNotThrowAny {
+                            submissionService.submitSurvey(requests)
+                        }
                     }
                 }
             }
