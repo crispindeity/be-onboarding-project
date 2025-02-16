@@ -29,3 +29,4 @@ spring-dependency-management = { id = "io.spring.dependency-management", version
 jvm-library = { id = "jvm.library" }
 kotlin-spring = { id = "kotlin.spring"}
 kotlin-spring-test = { id = "kotlin.spring.test" }
+spring-web = { id = "spring.web" }

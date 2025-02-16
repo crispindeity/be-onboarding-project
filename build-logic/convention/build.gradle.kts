@@ -28,5 +28,9 @@ gradlePlugin {
             id = "kotlin.spring.test"
             implementationClass = "KotlinSpringTestLibraryConventionPlugin"
         }
+        register("springWeb") {
+            id = "spring.web"
+            implementationClass = "SpringWebLibraryConventionPlugin"
+        }
     }
 }
