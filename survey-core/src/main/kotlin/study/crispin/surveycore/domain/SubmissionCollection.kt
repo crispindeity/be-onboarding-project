@@ -8,28 +8,42 @@ data class SubmissionCollection(
     }
 
     private fun validate(items: List<SurveyItem>) {
-        validateSubmissionCount(items)
-        validateSubmissionNames(items)
-        validateSubmissionItems(items)
+        checkMissingRequiredItems(items)
+        verifySubmissionCompleteness(items)
+        validateSubmissionAnswers(items)
     }
 
-    private fun validateSubmissionCount(items: List<SurveyItem>) {
-        require(submissions.size >= items.filter { it.required }.size) {
-            "Number of submissions (${submissions.size}) " +
-                "must match number of survey items (${items.size})"
+    private fun checkMissingRequiredItems(items: List<SurveyItem>) {
+        val requiredSurveyItemName: List<String> =
+            items
+                .filter { it.required }
+                .map { it.name }
+        val submissionName: List<String> =
+            submissions
+                .map { it.name }
+
+        require(
+            submissionName.containsAll(requiredSurveyItemName)
+        ) {
+            "A required survey item is missing from the submission. " +
+                "Missing required survey item: ${
+                    requiredSurveyItemName.filter {
+                        it !in submissionName
+                    }
+                }"
         }
     }
 
-    private fun validateSubmissionNames(items: List<SurveyItem>) {
+    private fun verifySubmissionCompleteness(items: List<SurveyItem>) {
         val surveyItemNames: Set<String> = items.map { it.name }.toSet()
         val submissionNames: Set<String> = submissions.map { it.name }.toSet()
 
         if (surveyItemNames.size != submissionNames.size) {
-            validateRequired(items, surveyItemNames, submissionNames)
+            validateOptionalItemsCount(items, surveyItemNames, submissionNames)
         }
     }
 
-    private fun validateRequired(
+    private fun validateOptionalItemsCount(
         items: List<SurveyItem>,
         surveyItemNames: Set<String>,
         submissionNames: Set<String>
@@ -43,7 +57,7 @@ data class SubmissionCollection(
         }
     }
 
-    private fun validateSubmissionItems(items: List<SurveyItem>) {
+    private fun validateSubmissionAnswers(items: List<SurveyItem>) {
         val surveyItemMap: Map<String, SurveyItem> = items.associateBy { it.name }
         val submissionMap: Map<String, Submission> = submissions.associateBy { it.name }
 
