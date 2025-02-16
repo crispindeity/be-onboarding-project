@@ -32,5 +32,9 @@ gradlePlugin {
             id = "spring.web"
             implementationClass = "SpringWebLibraryConventionPlugin"
         }
+        register("kotlinSerialization") {
+            id = "kotlin.plugin.serialization"
+            implementationClass = "KotlinSerializationLibraryConventionPlugin"
+        }
     }
 }
