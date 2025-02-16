@@ -15,6 +15,7 @@ rootProject.name = "be-onboarding-project"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 include(
+    ":survey-api",
     ":survey-core",
     ":survey-infra"
 )
