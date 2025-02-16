@@ -3,7 +3,9 @@ package study.crispin.surveyapi
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
-@SpringBootApplication
+@SpringBootApplication(
+    scanBasePackages = ["study.crispin"]
+)
 class SurveyApiApplication
 
 fun main(args: Array<String>) {
