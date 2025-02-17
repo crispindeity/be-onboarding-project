@@ -4,39 +4,24 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CreateSurveyRequest(
-    val name: String,
-    val description: String,
-    val items: List<SurveyItemDto>
-)
-
-@Serializable
-data class SurveyItemDto(
-    val name: String,
-    val description: String,
-    val form: FormDto,
-    val required: Boolean
-)
-
-@Serializable
-sealed class FormDto {
+sealed class FormRequestDto {
     @Serializable
     @SerialName("longInput")
-    data object LongInputDto : FormDto()
+    data object LongInputDto : FormRequestDto()
 
     @Serializable
     @SerialName("shortInput")
-    data object ShortInputDto : FormDto()
+    data object ShortInputDto : FormRequestDto()
 
     @Serializable
     @SerialName("multiSelect")
     data class MultiSelectDto(
         val options: List<String>
-    ) : FormDto()
+    ) : FormRequestDto()
 
     @Serializable
     @SerialName("singleSelect")
     data class SingleSelectDto(
         val options: List<String>
-    ) : FormDto()
+    ) : FormRequestDto()
 }

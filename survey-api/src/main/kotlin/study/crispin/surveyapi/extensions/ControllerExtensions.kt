@@ -1,11 +1,11 @@
 package study.crispin.surveyapi.extensions
 
-import study.crispin.surveyapi.controller.dto.request.FormDto
-import study.crispin.surveyapi.controller.dto.request.SurveyItemDto
+import study.crispin.surveyapi.controller.dto.request.FormRequestDto
+import study.crispin.surveyapi.controller.dto.request.SurveyItemRequestDto
 import study.crispin.surveycore.domain.Form
 import study.crispin.surveycore.domain.SurveyItem
 
-fun List<SurveyItemDto>.toDomain(): List<SurveyItem> =
+fun List<SurveyItemRequestDto>.toDomain(): List<SurveyItem> =
     map {
         SurveyItem(
             it.name,
@@ -15,10 +15,10 @@ fun List<SurveyItemDto>.toDomain(): List<SurveyItem> =
         )
     }
 
-fun FormDto.toDomain(): Form =
+fun FormRequestDto.toDomain(): Form =
     when (this) {
-        FormDto.LongInputDto -> Form.LongInput
-        is FormDto.MultiSelectDto -> Form.MultiSelect(this.options)
-        FormDto.ShortInputDto -> Form.ShortInput
-        is FormDto.SingleSelectDto -> Form.SingleSelect(this.options)
+        FormRequestDto.LongInputDto -> Form.LongInput
+        is FormRequestDto.MultiSelectDto -> Form.MultiSelect(this.options)
+        FormRequestDto.ShortInputDto -> Form.ShortInput
+        is FormRequestDto.SingleSelectDto -> Form.SingleSelect(this.options)
     }
