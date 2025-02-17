@@ -1,6 +1,6 @@
 package study.crispin.surveyapi.controller
 
-import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -14,7 +14,7 @@ import study.crispin.surveycore.port.CreateSurveyUseCase
 class SurveyApiV1Controller(
     private val createSurveyUseCase: CreateSurveyUseCase
 ) {
-    @GetMapping(produces = ["application/json", "application/vnd.crispin.survey-v1+json"])
+    @PostMapping(produces = ["application/json", "application/vnd.crispin.survey-v1+json"])
     fun createSurvey(
         @RequestBody request: CreateSurveyRequest
     ): Response<Nothing> {
