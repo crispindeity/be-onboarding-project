@@ -2,6 +2,7 @@ package study.crispin.surveyapi.controller
 
 import kotlinx.serialization.json.Json
 import org.hamcrest.Matchers
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -37,10 +38,13 @@ class SurveyApiV1ControllerTest {
     private lateinit var updateSurveyUseCase: UpdateSurveyUseCase
 
     @Nested
+    @DisplayName("설문조사 컨트롤러 테스트")
     inner class SurveyControllerTest {
         @Nested
+        @DisplayName("설문조사 요청 성공 테스트")
         inner class SurveyControllerSuccessTest {
             @Test
+            @DisplayName("설문조사 생성 요청 성공 테스트")
             fun createSurveyRequestTest() {
                 // given
                 val request =
