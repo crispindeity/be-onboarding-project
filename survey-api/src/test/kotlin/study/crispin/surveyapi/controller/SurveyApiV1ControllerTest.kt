@@ -1,5 +1,6 @@
 package study.crispin.surveyapi.controller
 
+import java.util.UUID
 import kotlinx.serialization.json.Json
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.DisplayName
@@ -19,6 +20,7 @@ import study.crispin.surveyapi.config.ControllerTestConfig
 import study.crispin.surveyapi.controller.dto.request.CreateSurveyRequestDto
 import study.crispin.surveyapi.controller.dto.request.FormRequestDto
 import study.crispin.surveyapi.controller.dto.request.SurveyItemRequestDto
+import study.crispin.surveyapi.controller.dto.request.UpdateSurveyRequestDto
 import study.crispin.surveycore.port.CreateSurveyUseCase
 import study.crispin.surveycore.port.UpdateSurveyUseCase
 
@@ -87,6 +89,64 @@ class SurveyApiV1ControllerTest {
                                 .content(
                                     json.encodeToString(
                                         CreateSurveyRequestDto.serializer(),
+                                        request
+                                    )
+                                ).accept("application/vnd.crispin.survey-v1+json")
+                                .contentType(MediaType.APPLICATION_JSON)
+                        ).andDo(MockMvcResultHandlers.print())
+
+                // then
+                result
+                    .andExpect(MockMvcResultMatchers.status().isOk)
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("SUCCESS"))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.result", Matchers.nullValue()))
+            }
+
+            @Test
+            @DisplayName("설문조사 업데이트 성공 테스트")
+            fun updateSurveyRequestTest() {
+                // given
+                val request =
+                    UpdateSurveyRequestDto(
+                        UUID.randomUUID(),
+                        "관심사 조사",
+                        "성별에 따른 관심사 조사",
+                        listOf(
+                            SurveyItemRequestDto(
+                                "이름",
+                                "성함을 입력해주세요.",
+                                FormRequestDto.ShortInputDto,
+                                true
+                            ),
+                            SurveyItemRequestDto(
+                                "나이",
+                                "나이를 입력해주세요.",
+                                FormRequestDto.ShortInputDto,
+                                true
+                            ),
+                            SurveyItemRequestDto(
+                                "관심사",
+                                "관심 있는 분야를 모두 선택해주세요.",
+                                FormRequestDto.MultiSelectDto(listOf("음악", "스포츠", "드라마")),
+                                true
+                            ),
+                            SurveyItemRequestDto(
+                                "성별",
+                                "성별을 선택해주세요.",
+                                FormRequestDto.SingleSelectDto(listOf("남", "여", "기타")),
+                                true
+                            )
+                        )
+                    )
+                // when
+                val result: ResultActions =
+                    mockMvc
+                        .perform(
+                            MockMvcRequestBuilders
+                                .patch("/api/survey")
+                                .content(
+                                    json.encodeToString(
+                                        UpdateSurveyRequestDto.serializer(),
                                         request
                                     )
                                 ).accept("application/vnd.crispin.survey-v1+json")
