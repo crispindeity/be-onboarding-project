@@ -1,6 +1,7 @@
 package study.crispin.surveyapi.controller
 
 import kotlinx.serialization.json.Json
+import org.hamcrest.Matchers
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
@@ -72,20 +74,26 @@ class SurveyApiV1ControllerTest {
                             )
                         )
                     )
-                // when & then
-                mockMvc
-                    .perform(
-                        MockMvcRequestBuilders
-                            .post("/api/survey")
-                            .content(
-                                json.encodeToString(
-                                    CreateSurveyRequestDto.serializer(),
-                                    request
-                                )
-                            ).accept("application/vnd.crispin.survey-v1+json")
-                            .contentType(MediaType.APPLICATION_JSON)
-                    ).andDo(MockMvcResultHandlers.print())
+                // when
+                val result: ResultActions =
+                    mockMvc
+                        .perform(
+                            MockMvcRequestBuilders
+                                .post("/api/survey")
+                                .content(
+                                    json.encodeToString(
+                                        CreateSurveyRequestDto.serializer(),
+                                        request
+                                    )
+                                ).accept("application/vnd.crispin.survey-v1+json")
+                                .contentType(MediaType.APPLICATION_JSON)
+                        ).andDo(MockMvcResultHandlers.print())
+
+                // then
+                result
                     .andExpect(MockMvcResultMatchers.status().isOk)
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("SUCCESS"))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.result", Matchers.nullValue()))
             }
         }
     }

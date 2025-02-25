@@ -1,5 +1,6 @@
 package study.crispin.surveyapi.config
 
+import java.nio.charset.StandardCharsets
 import kotlinx.serialization.json.Json
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
@@ -7,6 +8,7 @@ import org.springframework.http.MediaType
 import org.springframework.http.converter.HttpMessageConverter
 import org.springframework.http.converter.StringHttpMessageConverter
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
@@ -31,11 +33,15 @@ class ControllerTestConfig {
     ): MockMvc =
         MockMvcBuilders
             .webAppContextSetup(webApplicationContext)
-            .addFilter<DefaultMockMvcBuilder>(CharacterEncodingFilter("UTF-8", true))
-            .defaultRequest<DefaultMockMvcBuilder>(
-                org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+            .addFilter<DefaultMockMvcBuilder>(
+                CharacterEncodingFilter(
+                    StandardCharsets.UTF_8.name(),
+                    true
+                )
+            ).defaultRequest<DefaultMockMvcBuilder>(
+                MockMvcRequestBuilders
                     .get("/")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .characterEncoding("UTF-8")
+                    .characterEncoding(StandardCharsets.UTF_8.name())
             ).build()
 }
